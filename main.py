@@ -48,6 +48,14 @@ def tran_data_open(num, body, fun):
         return body
 
 
+def instead_numb(text):
+    while True:
+        try:
+            return int(input(f"{text}"))
+        except:
+            print("(!) Нужно вводить числа.")
+
+
 def chek_pasw():
     while True:
         for a in range(3):
@@ -72,11 +80,11 @@ now = datetime.datetime.now()
 print("Добро пожаловать в наш Банк")
 while True:
     print("Вы можете:\n1. Создать аккаунт.\n2. Войти в личный кабинет.\n3. Выйти из программы.\n")
-    op = int(input("Выберите операцию: "))
+    op = instead_numb("Выберите операцию: ")
     if op == 1:
         print("Заполните пожалуйста данные для регистрации нового аккаунта.")
         name = str(input("Ваше ФИО: "))
-        year = int(input("Год рождения: "))
+        year = instead_numb("Год рождения: ")
         print(f"Создан Аккаунт: {name} ({now.year - year} лет)")
         while True:
             passw = str(input("Введите пожалуйста пароль: "))
@@ -85,7 +93,7 @@ while True:
                 break
             else:
                 print("Пароли не совпадают. Попробуйте заново.")
-        limit = int(input("Введите максимальную сумму, которая должна быть на счету: "))
+        limit = instead_numb("Введите максимальную сумму, которая должна быть на счету: ")
         print(f"Максимальная сумма {limit} установлена.\n")
         with open("data-man.txt", "w", encoding='utf-8') as fout:
             fout.write(f'{name},{year},{passw},{limit},0')
@@ -111,7 +119,7 @@ while True:
             tran_sum = [2]
             tran_count = [3]
             while True:
-                solution = int(input("Вы хотите востановить данные? (Да = 1 Нет = 0): "))
+                solution = instead_numb("Вы хотите востановить данные? (Да = 1 Нет = 0): ")
                 if solution == 1:
                     try:
                         with open("data-transaction.txt", "r", encoding='utf-8') as fin:
@@ -142,10 +150,10 @@ while True:
                       "7. Снять деньги.\n"
                       "8. Вывести баланс на экран.\n"
                       "9. Выйти из личного кабинета.\n")
-                op2 = int(input("Выберите операцию: "))
+                op2 = instead_numb("Выберите операцию: ")
                 if op2 == 1:
                     while True:
-                        balance_plus = int(input("Введите сумму пополнения: "))
+                        balance_plus = instead_numb("Введите сумму пополнения: ")
                         if balance_plus == 0:
                             print("Ваш счёт не был изменён.\n")
                             break
@@ -160,13 +168,13 @@ while True:
                             break
                 elif op2 == 2:
                     print(f"Ваш нынешний лимит: {limit} руб.")
-                    limit = int(input("Введите максимальную сумму, которая должна быть на счету: "))
+                    limit = instead_numb("Введите максимальную сумму, которая должна быть на счету: ")
                     print(f"Максимальная сумма {limit} установлена.\n")
                     data_user_out()
                 elif op2 == 3:
                     new_name = str(input("Выберите назначение новой транзакции: "))
-                    new_sum = int(input("Выберите сумму пополнения: "))
-                    new_count = int(input("Выберите количество пополнений: "))
+                    new_sum = instead_numb("Выберите сумму пополнения: ")
+                    new_count = instead_numb("Выберите количество пополнений: ")
                     tran_name.append(str(new_name))
                     tran_sum.append(int(new_sum))
                     tran_count.append(int(new_count))
@@ -177,9 +185,9 @@ while True:
                     for y in range(len(tran_name) - 1):
                         print(f'Транзакция {y + 1}: "{tran_name[y + 1]}" на сумму {tran_sum[y + 1]} руб.')
                     print()
-                    to_do = int(input('Выберите номер транзакции которую хотите применить. \n'
-                                      'Чтобы выбрать сразу все нажмите "0".\nЧтобы выйти нажмите "99".\n'
-                                      'Ваш выбор:'))
+                    to_do = instead_numb('Выберите номер транзакции которую хотите применить. \n'
+                                         'Чтобы выбрать сразу все нажмите "0".\nЧтобы выйти нажмите "99".\n'
+                                         'Ваш выбор:')
                     if to_do == 99:
                         print()
                         continue
@@ -198,7 +206,7 @@ while True:
                     tran_write()
                     print()
                 elif op2 == 5:
-                    min_trans = int(input("Введите минимальную сумму которая должна быть в платежах: "))
+                    min_trans = instead_numb("Введите минимальную сумму которая должна быть в платежах: ")
                     for i in generator(tran_sum, 1):
                         if tran_sum[i + 1] >= min_trans:
                             print(f'Транзакция {i + 1}: "{tran_name[i + 1]}" на сумму {tran_sum[i + 1]} руб.')
@@ -211,7 +219,7 @@ while True:
                     print()
                 elif op2 == 7:
                     while True:
-                        take = int(input("Введите сумму которую хотите снять: "))
+                        take = instead_numb("Введите сумму которую хотите снять: ")
                         if take == 0:
                             print("Ваш счёт не был изменён.\n")
                             break
